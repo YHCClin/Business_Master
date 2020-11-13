@@ -1,0 +1,7 @@
+{
+  "name": "shengyizhuanjia2",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
