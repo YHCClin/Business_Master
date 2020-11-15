@@ -1,29 +1,18 @@
 ion-toolbar {
     --background: transparent;
     --border-color: transparent;
-}
-
-ion-slides {
-    --bullet-background: transparent;
-    margin-top: 0;
-}
-
-ion-slide {
-    margin: auto;
-}
-
-img {
-    margin: auto;
-}
-
-.fixed-bottom{
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
 }
 
-ion-row {
-    margin-top: auto;
+.fixed-bottom {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 10px;
+    width: 98%;
+    align-items: center;
+}
+
+ion-grid {
+    height: 100vh;
 }

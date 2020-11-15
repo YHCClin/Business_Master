@@ -19,5 +19,8 @@ export class GuidePage implements OnInit {
       this.showSkip = !end;
     });
   }
+  onSkipToEnd(event) {
+    this.slides.slideTo(2);
+  }
 
 }
