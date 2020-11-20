@@ -1,0 +1,228 @@
+<ion-header class="ion-no-border">
+</ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+  </ion-toolbar>
+<ion-content>
+  <div class="ion-text-center">
+    <!-- 图标-->
+    <img class="logo" src="../../../assets/images/logo.png" alt="">
+  </div>
+  
+  <ion-grid class="grid">
+    <ion-row>
+      <ion-col>
+        <img src="../../../assets/images/registered_one.png" alt="" *ngIf="slideIndex!==0">
+        <img src="../../../assets/images/registered_one_one.png" alt="" *ngIf="slideIndex===0">
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <hr>
+      </ion-col>
+      <ion-col>
+        <img src="../../../assets/images/registered_two.png" alt="" *ngIf="slideIndex!==1">
+        <img src="../../../assets/images/registered_two_two.png" alt="" *ngIf="slideIndex===1">
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <hr>
+      </ion-col>
+      <ion-col>
+        <img src="../../../assets/images/registered_three.png" alt="" *ngIf="slideIndex!==2">
+        <img src="../../../assets/images/registered_three_three.png" alt="" *ngIf="slideIndex===2">
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <hr>
+      </ion-col>
+      <ion-col>
+        <img src="../../../assets/images/register_four.png" alt="" *ngIf="slideIndex!==3">
+        <img src="../../../assets/images/register_four_four.png" alt="" *ngIf="slideIndex===3">
+      </ion-col>
+      
+    </ion-row>
+  </ion-grid>
+  <ion-slides pager="false" #signupSlides>
+
+    <ion-slide margin-top>
+      <form (ngSubmit)="onSignupPhone(phoneForm)" #phoneForm="ngForm" novalidate width="100%">
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="12">
+              <h1>手机号注册</h1>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-input name="phone" type="number" placeholder="请输入您的手机号码" required  pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$" [(ngModel)]="signup.phone" #phone="ngModel">
+              </ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-text text-left color="danger" *ngIf="(phone.invalid && phone.touched) || submited">
+                <p [hidden]="!phone.errors?.required" padding-start>请输入您的手机号码</p>
+                <p [hidden]="!phone.errors?.pattern" padding-start>您输入的手机号格式不正确</p>
+            </ion-text>
+            </ion-col>
+          </ion-row>
+                
+          <ion-row>
+            <ion-col size="12">
+              <ion-button type="submit" expand="full" [disabled]="phoneForm.invalid" shape="round">下一步</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-slide>
+
+    <ion-slide>
+      <form novalidate>
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="12">
+              <h1>验证您的手机</h1>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="8">
+              <ion-input name="authcode" type="number" placeholder="请输入验证码" required pattern="\d{0,8}$" [(ngModel)]="verifyCode.code" #authcode="ngModel"></ion-input>
+            </ion-col>
+            <ion-col size="4">
+              <ion-button expand="full" [disabled]="!verifyCode.disable" (click)="getCode()" class="full-width" shape="round">{{verifyCode.verifyCodeTips}}</ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-text text-left color="danger" *ngIf="authcode.invalid && authcode.touched">
+                <!-- <p [hidden]="!authcode.errors?.required" padding-start>请输入验证码</p>-->
+                <p [hidden]="!authcode.errors?.pattern" font-size="10px" padding-start>验证码格式不正确</p>
+              </ion-text>
+              <ion-text text-left color="danger" font-size="10px" *ngIf="verifyCode.fail && authcode.touched">
+                <p padding-start>验证码错误</p>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-text>
+                <p>{{'验证码 ：' + codeTest}}</p>
+                <!--<p>{{'MD5加密：' + codeMd5}}</p>-->  
+              </ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="6">
+              <ion-button expand="full" (click)="onPrevious()" shape="round">
+                上一步
+              </ion-button>
+            </ion-col>
+            <ion-col size="6"><ion-button expand="full" (click)="checkCode()" shape="round">
+                下一步
+            </ion-button></ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-slide>
+    
+    <ion-slide>
+      <form novalidate #information="ngForm" >
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="12">
+              <h1>完善信息</h1>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-input name="shopName" type="text" placeholder="请输入店铺名称"  [(ngModel)]="signup.shopName" #shopName="ngModel">
+              </ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-text text-left color="danger" *ngIf="shopName.invalid && shopName.touched">
+                <p [hidden]="!shopName.errors?.required" padding-start>请输入店铺名称</p>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-input name="email" type="email" placeholder="请输入电子邮箱"  [(ngModel)]="signup.email" #email="ngModel">
+              </ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-text text-left color="danger" *ngIf="email.invalid && email.touched">
+                <p [hidden]="!email.errors?.required" padding-start>请输入邮箱地址</p>
+                <p [hidden]="!email.errors?.pattern" padding-start>邮箱地址格式错误</p>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-input name="code" type="password" placeholder="输入登陆密码" required
+                                pattern="[0-9a-zA-Z]{6,12}"  [(ngModel)]="signup.password" #code="ngModel">
+                    </ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-text text-left color="danger" *ngIf="code.invalid && code.touched">
+                <p [hidden]="!code.errors?.required" padding-start>请输入登入密码</p>
+                <p [hidden]="!code.errors?.pattern" padding-start>密码格式错误</p>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-input name="surecode" type="password" placeholder="确认登陆密码" required
+                                pattern="[0-9a-zA-Z]{6,12}" [(ngModel)]="signup.confirmPassword" #surecode="ngModel">
+                    </ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-text text-left color="danger" *ngIf="surecode.invalid && surecode.touched">
+                <p [hidden]="!surecode.errors?.required" padding-start>请再次输入密码</p>
+                <!--<p [hidden]="!sureCode.errors?.pattern" padding-start>密码格式错误</p>-->
+              </ion-text>
+              <ion-text text-left color="danger" *ngIf="params.checkInformationResult">
+                <p padding-start>两次密码不一致或账号已注册过</p>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-button expand="full" (click)="onPrevious()" shape="round">
+                上一步
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button expand="full" (click)="oncheckInformation()" shape="round" [disabled]="information.invalid">
+                确定注册
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-slide>
+    <ion-slide>
+      <ion-grid height="100vh">
+        <ion-row>
+          <ion-col size="12">
+            感谢您使用生意专家，您已完成注册流程，点击登录即可进入登录界面！
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <ion-button expand="full" (click)="gotoLoginPage()" shape="round">
+              登陆
+          </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+  </ion-slides> 
+</ion-content>
