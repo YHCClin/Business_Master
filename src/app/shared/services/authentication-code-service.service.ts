@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Config } from 'protractor';
-import { HttpServiceServiceService } from 'src/app/shared/services/http-service-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,7 @@ export class AuthenticationCodeServiceService {
   private code: string;
   // 存放验证码的过期时间
   private deadline: number;
-  constructor(private httpService: HttpServiceServiceService) {
+  constructor() {
     this.code = '';
   }
   // 生成指定长度的随机数字

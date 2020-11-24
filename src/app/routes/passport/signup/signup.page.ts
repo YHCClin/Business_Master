@@ -6,7 +6,6 @@ import { AuthenticationCodeServiceService } from 'src/app/shared/services/authen
 import { Router } from '@angular/router';
 import { PassportServiceService } from 'src/app/shared/services/passport-service.service';
 import { Md5 } from 'ts-md5/dist/md5';
-import { verify } from 'crypto';
 
 @Component({
   selector: 'app-signup',
@@ -44,7 +43,6 @@ export class SignupPage implements OnInit {
     fail: false// 验证失败
   };
 
-
   public submited = false;
   public codeTest = '';
   public codeMd5 = '';
@@ -64,10 +62,11 @@ export class SignupPage implements OnInit {
     }
   }
 
+
   getCode() {
     // 获取验证码
     this.codeTest = this.authenticationCode.createCode(this.verifyCode.codeLength);
-    // console.log('验证码：' + this.code_test);
+    // console.log('验证码：' + this.codeTest);
     // MD5加密
     this.codeMd5 = Md5.hashStr(this.codeTest).toString();
     // 发送短信

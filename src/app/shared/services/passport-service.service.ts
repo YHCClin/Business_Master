@@ -7,7 +7,6 @@ import { LocalStorageService } from './local-storage.service';
 export class PassportServiceService {
 
   constructor(private localStorageService: LocalStorageService) { }
-  UID = 0;
   addUser(phone: string, email: string, password: string, shopname: string): boolean {
     const account = this.localStorageService.get('user', '');
     console.log('account:' + account);
