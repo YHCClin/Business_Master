@@ -1,24 +1,26 @@
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { CopyrightComponent } from './components/copyright/copyright.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    CopyrightComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
-    HttpClientModule
+    IonicModule
   ],
   exports: [ // 导出
     CommonModule,
     FormsModule,
     IonicModule,
-    HttpClientModule
-  ]
+    CopyrightComponent
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedModule { }
