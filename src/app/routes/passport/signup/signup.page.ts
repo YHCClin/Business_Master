@@ -6,6 +6,7 @@ import { AuthenticationCodeServiceService } from 'src/app/shared/services/authen
 import { Router } from '@angular/router';
 import { PassportServiceService } from 'src/app/shared/services/passport-service.service';
 import { Md5 } from 'ts-md5/dist/md5';
+import { AjaxResult } from 'src/app/shared/class/ajax-result';
 
 @Component({
   selector: 'app-signup',
@@ -14,9 +15,10 @@ import { Md5 } from 'ts-md5/dist/md5';
 })
 
 export class SignupPage implements OnInit {
-  constructor(private authenticationCode: AuthenticationCodeServiceService, private navCtrl: NavController,
+  constructor(private authenticationCode: AuthenticationCodeServiceService,
+              private navCtrl: NavController,
               private router: Router,
-              private userService: PassportServiceService){}
+              private passportService: PassportServiceService){}
   @ViewChild('signupSlides', {static: true}) signupSlides: IonSlides;
   signup: Signup = {
     phone: '',
@@ -103,7 +105,6 @@ export class SignupPage implements OnInit {
   }
 
   oncheckInformation() {
-    // console.log('sureCode : ' + this.signup.confirmPassword);
     if (this.signup.password !== '' && this.signup.password === this.signup.confirmPassword && this.saveUser()) {
         this.onNext();
         this.params.checkInformationResult = false;
@@ -113,11 +114,10 @@ export class SignupPage implements OnInit {
     }
   }
 
-  saveUser(): boolean {
-// tslint:disable-next-line:ban-types
-    const res: Boolean = this.userService.addUser(this.signup.phone, this.signup.email,
-      this.signup.password, this.signup.shopName);
-    if (res === true) {
+  async saveUser(): Promise<boolean> {
+    const res: any = (await this.passportService.addUser(this.signup.phone, this.signup.email,
+      this.signup.password, this.signup.shopName));
+    if (res.success === true) {
       console.log('注册成功');
       return true;
     } else {
@@ -139,7 +139,7 @@ export class SignupPage implements OnInit {
     // 重置verifyCode
     this.verifyCode.code = '';
 
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('passport/login');
   }
 
 
@@ -158,5 +158,6 @@ export class SignupPage implements OnInit {
     this.slideIndex--;
     this.signupSlides.lockSwipeToNext(true);
   }
+
 
 }

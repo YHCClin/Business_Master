@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AjaxResult } from '../class/ajax-result';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
@@ -7,13 +8,15 @@ import { LocalStorageService } from './local-storage.service';
 export class PassportServiceService {
 
   constructor(private localStorageService: LocalStorageService) { }
-  addUser(phone: string, email: string, password: string, shopname: string): boolean {
-    const account = this.localStorageService.get('user', '');
+
+  async addUser(phone: string, email: string, password: string, shopname: string): Promise<AjaxResult> {
+    const account = await this.localStorageService.get('user', '');
     console.log('account:' + account);
     if (account != null && (phone === account.accounts[0].identifier || email === account.accounts[1].identifier)) {
       console.log('该账号已经注册过了');
-      return false;
+      return new AjaxResult(false, null, {message: '您的手机号已经被注册', details: ''});
     }
+    // 定义User结构
     const user = {
       shopName: shopname,
       accounts: [],
@@ -27,10 +30,21 @@ export class PassportServiceService {
     this.localStorageService.set('signupTime', time);
     user.createTime = time;
     user.uid = Date.now();
-    this.localStorageService.set(user.uid, user);
+    this.localStorageService.set('user', user);
     console.log(user);
 
-    return true;
+    return new AjaxResult(true, null);
+  }
+
+  async login(phoneOrEmail: string, password: string): Promise<AjaxResult> {
+    const accounts = this.localStorageService.get('user', '').accounts;
+    if (!(phoneOrEmail === accounts[0].identifier && password === accounts[0].passwordToken)
+      && !(phoneOrEmail === accounts[1].identifier && password === accounts[1].passwordToken)) {
+      return new AjaxResult(false, null); // 账号或密码错误
+    }
+    const loginTime = new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace('/T/g', ' ').replace('/\.[\d]{3}Z/', '');
+    this.localStorageService.set('loginTime', loginTime);
+    return new AjaxResult(true, null);
   }
 
 }

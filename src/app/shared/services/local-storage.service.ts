@@ -9,6 +9,12 @@ export class LocalStorageService {
 
   get(key: any, defaultValue?: any): any {
     // 这里判断一下输入，抛出相应异常
+    try {
+      if ( key === null) {  throw new Error('key 值不能为空'); }
+    } catch (error) {
+      console.log(error);
+      return;
+    }
     let value = this.LocalStorage.getItem(key);
     try {
       value = JSON.parse(value);

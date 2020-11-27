@@ -24,7 +24,7 @@ export class StartAppGuard implements CanActivate {
       appConfig.launched = true;
       this.localStorageService.set(APP_KEY, appConfig);
     } else {
-      this.router.navigateByUrl('/tabs');
+      this.router.navigateByUrl('/passport/signup');
     }
     return true;
   }
