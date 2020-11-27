@@ -40,7 +40,7 @@ export class LoginPage implements OnInit {
     } else {
       // 密码不对时提示错误
       const accounts = this.localStorageService.get('user', '').accounts;
-      if (!this.passportService.login(this.userName, this.password)) {
+      if (!(await this.passportService.login(this.userName, this.password)).success) {
         const alert = await this.alertCtrl.create({
           header: '提示',
           message: '用户名或者密码不正确',

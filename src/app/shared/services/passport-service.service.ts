@@ -38,13 +38,13 @@ export class PassportServiceService {
 
   async login(phoneOrEmail: string, password: string): Promise<AjaxResult> {
     const accounts = this.localStorageService.get('user', '').accounts;
-    if (!(phoneOrEmail === accounts[0].identifier && password === accounts[0].passwordToken)
-      && !(phoneOrEmail === accounts[1].identifier && password === accounts[1].passwordToken)) {
-      return new AjaxResult(false, null); // 账号或密码错误
+    if ((phoneOrEmail == accounts[0].identifier && password == accounts[0].passwordToken)
+      || (phoneOrEmail == accounts[1].identifier && password == accounts[1].passwordToken)) {
+      const loginTime = new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace('/T/g', ' ').replace('/\.[\d]{3}Z/', '');
+      this.localStorageService.set('loginTime', loginTime);
+      return new AjaxResult(true, null); // 账号或密码错误
     }
-    const loginTime = new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace('/T/g', ' ').replace('/\.[\d]{3}Z/', '');
-    this.localStorageService.set('loginTime', loginTime);
-    return new AjaxResult(true, null);
+    return new AjaxResult(false, null);
   }
 
 }

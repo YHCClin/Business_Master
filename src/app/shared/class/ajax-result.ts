@@ -1,5 +1,5 @@
 export class AjaxResult {
-    constructor(private success: boolean,
+    constructor(public success: boolean,
                 private result: any,
                 private error?: { message: string; details: string; },
                 private targetUrl?: string,
