@@ -1,11 +1,13 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button text="返回"></ion-back-button>
+      <ion-button (click)="onGoBack()" expand="block" fill="clear" shape="round" color="primary">
+        返回
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-  
+
 <ion-content>
   <div class="ion-text-center">
     <!-- 图标-->
@@ -49,11 +51,6 @@
         <ion-grid fixed>
           <ion-row>
             <ion-col size="12">
-              <h1>手机号注册</h1>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="12">
               <ion-input name="phone" type="number" placeholder="请输入您的手机号码" required  pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$" [(ngModel)]="signup.phone" #phone="ngModel">
               </ion-input>
             </ion-col>
@@ -79,11 +76,6 @@
     <ion-slide>
       <form novalidate>
         <ion-grid fixed>
-          <ion-row>
-            <ion-col size="12">
-              <h1>验证您的手机</h1>
-            </ion-col>
-          </ion-row>
           <ion-row>
             <ion-col size="8">
               <ion-input name="authcode" type="number" placeholder="请输入验证码" required pattern="\d{0,8}$" [(ngModel)]="verifyCode.code" #authcode="ngModel"></ion-input>
@@ -120,9 +112,11 @@
                 上一步
               </ion-button>
             </ion-col>
-            <ion-col size="6"><ion-button expand="full" (click)="checkCode()" shape="round">
+            <ion-col size="6">
+              <ion-button expand="full" (click)="checkCode()" shape="round">
                 下一步
-            </ion-button></ion-col>
+              </ion-button>
+          </ion-col>
           </ion-row>
         </ion-grid>
       </form>
@@ -131,11 +125,6 @@
     <ion-slide>
       <form novalidate #information="ngForm" >
         <ion-grid fixed>
-          <ion-row>
-            <ion-col size="12">
-              <h1>完善信息</h1>
-            </ion-col>
-          </ion-row>
           <ion-row>
             <ion-col size="12">
               <ion-input name="shopName" type="text" placeholder="请输入店铺名称"  [(ngModel)]="signup.shopName" #shopName="ngModel">

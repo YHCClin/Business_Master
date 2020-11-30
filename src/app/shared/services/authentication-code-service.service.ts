@@ -17,7 +17,7 @@ export class AuthenticationCodeServiceService {
   createCode(count: number): string{
     this.code = '';
     // 10分钟内有效
-    this.deadline = Date.now() + 60 * 10 * 1000;
+    this.deadline = Date.now() + 10 * 60 * 1000;
     for (let i = 0; i < count; i++) {
       const num = Math.floor(Math.random() * 10);
       this.code += num.toString();

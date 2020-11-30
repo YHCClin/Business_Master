@@ -21,6 +21,18 @@ export class LoginPage implements OnInit {
               private navCtrl: NavController) { }
 
   ngOnInit() {
+    const alreadySignup = this.localStorageService.get('alreadySignup', false);
+    const account = this.localStorageService.get('user', null);
+    const lastLoginAccount = this.localStorageService.get('lastLoginAccount', null);
+    const expiredTime = this.localStorageService.get('expiredTime', null);
+    if (alreadySignup) {
+      this.userName = this.localStorageService.get('user').accounts[0].identifier;
+      this.password = this.localStorageService.get('user').accounts[0].passwordToken;
+      this.localStorageService.set('alreadySignup', false);
+    }
+    else if (account != null && lastLoginAccount != null && expiredTime != null &&  (Date.now() > expiredTime)) {
+      this.userName = lastLoginAccount;
+    }
   }
   async onLogin(form: NgForm) {
     console.log(this.userName);
@@ -48,13 +60,14 @@ export class LoginPage implements OnInit {
         });
         alert.present();
       } else {
+        this.localStorageService.set('lastLoginAccount', this.localStorageService.get('user').accounts[0].identifier);
         this.router.navigateByUrl('/tabs');
       }
     }
   }
 
-  openForgotPassword() {
-    this.router.navigateByUrl('passport/forget-password');
+  onForgotPassword() {
+    this.router.navigateByUrl('passport/forgot-password');
   }
 
 }

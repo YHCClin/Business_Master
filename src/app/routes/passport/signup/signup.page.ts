@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../../shared/services/local-storage.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonSlides, NavController } from '@ionic/angular';
@@ -18,7 +19,8 @@ export class SignupPage implements OnInit {
   constructor(private authenticationCode: AuthenticationCodeServiceService,
               private navCtrl: NavController,
               private router: Router,
-              private passportService: PassportServiceService){}
+              private passportService: PassportServiceService,
+              private localStorage: LocalStorageService){}
   @ViewChild('signupSlides', {static: true}) signupSlides: IonSlides;
   signup: Signup = {
     phone: '',
@@ -27,14 +29,6 @@ export class SignupPage implements OnInit {
     password: '',
     confirmPassword: '',
     code: '',
-  };
-  register = {
-    phone: '',
-    email: '',
-    shopName: '',
-    password: '',
-    confirmPassword: '',
-    code: ''
   };
   verifyCode: any = {
     verifyCodeTips: '获取',
@@ -76,6 +70,7 @@ export class SignupPage implements OnInit {
     this.verifyCode.disable = false;
     this.setTime();
   }
+
 
   setTime() {
     if (this.verifyCode.countdown === 1) {
@@ -138,7 +133,7 @@ export class SignupPage implements OnInit {
 
     // 重置verifyCode
     this.verifyCode.code = '';
-
+    this.localStorage.set('alreadySignup', true);
     this.router.navigateByUrl('passport/login');
   }
 
@@ -159,5 +154,8 @@ export class SignupPage implements OnInit {
     this.signupSlides.lockSwipeToNext(true);
   }
 
+  onGoBack() {
+    history.go(-1);
+  }
 
 }

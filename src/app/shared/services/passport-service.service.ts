@@ -41,10 +41,25 @@ export class PassportServiceService {
     if ((phoneOrEmail == accounts[0].identifier && password == accounts[0].passwordToken)
       || (phoneOrEmail == accounts[1].identifier && password == accounts[1].passwordToken)) {
       const loginTime = new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace('/T/g', ' ').replace('/\.[\d]{3}Z/', '');
+      // 记录登录时间，过期时间，账号
       this.localStorageService.set('loginTime', loginTime);
+      this.localStorageService.set('expiredTime', Date.now() + 5 * 24 * 60 * 60 * 1000);
+      this.localStorageService.set('lastLoginAccount', phoneOrEmail);
       return new AjaxResult(true, null); // 账号或密码错误
     }
-    return new AjaxResult(false, null);
+    return new AjaxResult(false, null, {message: '登录失败', details: ''});
+  }
+
+  getPassword(): string {
+    return this.localStorageService.get('user', '').accounts[0].passwordToken;
+  }
+
+  updatePassword(password: string): boolean {
+    const tmp = this.localStorageService.get('user', '');
+    tmp.accounts[0].passwordToken = password;
+    tmp.accounts[1].passwordToken = password;
+    this.localStorageService.set('user', tmp);
+    return true;
   }
 
 }
