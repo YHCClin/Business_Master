@@ -7,6 +7,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content color="medium">
+  <ion-list inset="true">
+    <ion-item detail href="/me/shop/shop-edit">
+      <ion-label>店铺设置</ion-label>
+    </ion-item>
+    <ion-item detail href="/passport/forgot-password">
+      <ion-label>密码</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>联系客服</ion-label>
+      <ion-note slot="end">{{phone}}</ion-note>
+    </ion-item>
+  </ion-list>
+  <!-- 其他省略 -->
 </ion-content>
