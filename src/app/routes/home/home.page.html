@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+        <ion-menu-button type="button" icon="menu-outline">
+        </ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="calendar"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+        <img style="width:100%;margin:-1px;padding:0px;" src="./../../assets/images/home/androidbanner.png" alt="" />
+    </ion-row>
+    <ion-row>
+      <ion-col *ngFor="let s of sales">
+        <h6><strong>{{s.title}}</strong></h6>
+        <h4><span>{{564.678 | number:'1.2-2'}}元</span></h4>
+        <p>
+          {{s.content}}
+          <span [ngClass]="{'less-equal': s.current - s.previous <= 0,'greater': s.current - s.previous > 0}">
+            {{s.current - s.previous | number:'1.2-2'}}
+          </span>&nbsp;
+          <!-- 三种图标 -->
+            <ng-container [ngSwitch]="minus(s.current, s.previous)">
+              <ion-icon name="arrow-up" color="danger" *ngSwitchCase="1"></ion-icon>
+              <ion-icon name="arrow-forward" color="success" *ngSwitchCase="0"></ion-icon>
+              <ion-icon name="arrow-down" color="success" *ngSwitchCase="-1"></ion-icon>
+            </ng-container>
+          </p>
+      </ion-col>
+    </ion-row>
+    <ion-row class="grid" >
+      <ion-col size="3" *ngFor="let item of items" [routerLink]="item.url">
+        <div class="grid-item">
+          <ion-icon size="large" [name]="item.icon"></ion-icon>
+          <div>{{item.title}}</div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

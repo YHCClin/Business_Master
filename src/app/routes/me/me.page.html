@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Me</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onGoToSetting()">
+        <ion-icon slot="end" name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item color="light">
+      <ion-label>
+        <ion-text>
+          <h2>林宇航</h2>
+        </ion-text>
+        <p>18359135336</p>
+      </ion-label>
+      <ion-badge slot="end" color="primary">究级版</ion-badge>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-item detail *ngFor="let page of appPages" (click)="Tips()">
+      <ion-icon [name]="page.icon" slot="start">
+      </ion-icon>
+      <ion-label>{{page.title}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

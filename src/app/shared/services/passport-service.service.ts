@@ -11,6 +11,7 @@ export class PassportServiceService {
 
   async addUser(phone: string, email: string, password: string, shopname: string): Promise<AjaxResult> {
     const account = await this.localStorageService.get('user', '');
+    // const accounts = await this.localStorageService.get('TUser', []);
     console.log('account:' + account);
     if (account != null && (phone === account.accounts[0].identifier || email === account.accounts[1].identifier)) {
       console.log('该账号已经注册过了');

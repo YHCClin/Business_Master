@@ -61,7 +61,7 @@ export class LoginPage implements OnInit {
         alert.present();
       } else {
         this.localStorageService.set('lastLoginAccount', this.localStorageService.get('user').accounts[0].identifier);
-        this.router.navigateByUrl('/tabs');
+        this.router.navigateByUrl('/tabs/home');
       }
     }
   }

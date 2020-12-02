@@ -22,7 +22,7 @@ export class StartAppGuard implements CanActivate {
     });
     const UserExpiredTime = this.localStorageService.get('expiredTime');
     if (Date.now() < UserExpiredTime) {
-      this.router.navigateByUrl('/tabs');
+      this.router.navigateByUrl('/tabs/home');
       return true;
     }
     if (appConfig.launched === false){
