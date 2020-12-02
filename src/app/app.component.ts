@@ -31,6 +31,7 @@ export class AppComponent {
       { title: '反馈建议', url: 'tabs/home', icon: 'mail' },
       { title: '帮助中心', url: 'tabs/home', icon: 'help-circle' }
     ];
+    this.ionViewDidLeave();
   }
   public uid = '';
   public shopName = '';
@@ -51,15 +52,16 @@ export class AppComponent {
 
   ionViewWillEnter(){
     this.menuController.enable(false);
-    console.log('1111111111');
+    console.log('禁用菜单');
   }
   ionViewDidLeave() {
     this.menuController.enable(true);
+    console.log('开启菜单');
   }
 
   goToSetting() {
-    this.ionViewWillEnter();
-    console.log('go to setting page');
+    // this.ionViewWillEnter();
+    console.log('into settings page');
     this.router.navigateByUrl('/me/setting');
   }
 }

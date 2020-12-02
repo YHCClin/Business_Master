@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { AuthenticationCodeServiceService } from 'src/app/shared/services/authentication-code-service.service';
+import { AppComponent } from 'src/app/app.component';
 
 
 @Component({
@@ -17,11 +18,16 @@ export class ForgotPasswordPage implements OnInit {
               private navCtrl: NavController,
               private toastCtrl: ToastController,
               private router: Router,
-              private authenticationCode: AuthenticationCodeServiceService) { }
+              private authenticationCode: AuthenticationCodeServiceService,
+              private appComponent: AppComponent) {
+                this.appComponent.ionViewWillEnter();
+              }
 
   public account = '';
   public inputCode = '';
   public newPassword = '';
+  public confirmPassword = '';
+
   verifyCode: any = {
     verifyCodeTips: '获取验证码',
     code : '',
@@ -38,7 +44,13 @@ export class ForgotPasswordPage implements OnInit {
     console.log(user.accounts[0]);
     if (this.account === '' || this.newPassword === '') {
       const toast = await this.toastCtrl.create({
-        message: '请输入您的邮箱或者手机号码及新密码',
+        message: '请输入您的邮箱或者手机号码及一致的密码',
+        duration: 3000
+      });
+      toast.present();
+    } else if (this.confirmPassword !== this.newPassword) {
+      const toast = await this.toastCtrl.create({
+        message: '两次输入的密码不一致',
         duration: 3000
       });
       toast.present();
@@ -74,6 +86,17 @@ export class ForgotPasswordPage implements OnInit {
       account.accounts[0].passwordToken = this.newPassword;
       account.accounts[1].passwordToken = this.newPassword;
       this.localStorage.set('user', account);
+      let idx = 0;
+      const identifier = account.accounts[0].identifier;
+      const accounts = this.localStorage.get('TUser', []);
+      for ( idx = 0; idx < account.accounts.length; idx++) {
+        if (accounts[idx].accounts[0].identifier == identifier) {
+          break;
+        }
+      }
+      accounts.splice(idx, 1);
+      accounts.push(account);
+      this.localStorage.set('TUser', accounts); // 跟新表
       const alert = await this.alertCtrl.create({
         header: '提示',
         message: '密码修改成功',

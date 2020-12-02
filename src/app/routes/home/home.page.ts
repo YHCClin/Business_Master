@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-home',
@@ -90,9 +91,10 @@ public items: Array<{title: string, icon: string, url: string}> = [
     url: ''
   }
 ];
-  constructor() { }
+  constructor(private appComponent: AppComponent) { }
   ngOnInit() {
     this.getSales();
+    this.appComponent.ionViewDidLeave();
   }
   minus(current: number, previous: number): number {
     const result = current - previous;

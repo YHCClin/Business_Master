@@ -20,13 +20,17 @@ export class LoginPage implements OnInit {
               private alertCtrl: AlertController,
               private passportService: PassportServiceService,
               private navCtrl: NavController,
-              private appComponent: AppComponent) { }
+              private appComponent: AppComponent) {
+                this.appComponent.ionViewWillEnter();
+                this.localStorageService.set('loginStatus', false);
+              }
 
   ngOnInit() {
     const alreadySignup = this.localStorageService.get('alreadySignup', false);
     const account = this.localStorageService.get('user', null);
     const lastLoginAccount = this.localStorageService.get('lastLoginAccount', null);
     const expiredTime = this.localStorageService.get('expiredTime', null);
+    this.userName = lastLoginAccount;
     if (alreadySignup) {
       this.userName = this.localStorageService.get('user').accounts[0].identifier;
       this.password = this.localStorageService.get('user').accounts[0].passwordToken;

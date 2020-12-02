@@ -1,13 +1,15 @@
 import { LocalStorageService } from './../../../shared/services/local-storage.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { IonSlides, NavController } from '@ionic/angular';
+import { AlertController, IonSlides, NavController, ToastController } from '@ionic/angular';
 import { Signup } from './signup';
 import { AuthenticationCodeServiceService } from 'src/app/shared/services/authentication-code-service.service';
 import { Router } from '@angular/router';
 import { PassportServiceService } from 'src/app/shared/services/passport-service.service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { AjaxResult } from 'src/app/shared/class/ajax-result';
+import { AppComponent } from 'src/app/app.component';
+
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +22,13 @@ export class SignupPage implements OnInit {
               private navCtrl: NavController,
               private router: Router,
               private passportService: PassportServiceService,
-              private localStorage: LocalStorageService){}
+              private localStorage: LocalStorageService,
+              private alertCtrl: AlertController,
+              private toastCtrl: ToastController,
+              private appComponent: AppComponent){
+                this.appComponent.ionViewWillEnter();
+                this.localStorage.set('loginStatus', false);
+              }
   @ViewChild('signupSlides', {static: true}) signupSlides: IonSlides;
   signup: Signup = {
     phone: '',
@@ -59,9 +67,15 @@ export class SignupPage implements OnInit {
   }
 
 
-  getCode() {
+  async getCode() {
     // 获取验证码
     this.codeTest = this.authenticationCode.createCode(this.verifyCode.codeLength);
+    const alert = await this.alertCtrl.create({
+        header: '验证码',
+        message: `${this.codeTest}`,
+        buttons: ['知道了']
+    });
+    alert.present();
     // console.log('验证码：' + this.codeTest);
     // MD5加密
     this.codeMd5 = Md5.hashStr(this.codeTest).toString();

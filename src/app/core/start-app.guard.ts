@@ -24,6 +24,8 @@ export class StartAppGuard implements CanActivate {
     if (Date.now() < UserExpiredTime) {
       this.router.navigateByUrl('/tabs/home');
       return true;
+    } else {
+      this.localStorageService.set('user', null);
     }
     if (appConfig.launched === false){
       appConfig.launched = true;
