@@ -17,11 +17,15 @@ export class MePage implements OnInit {
     { title: '反馈建议', url: '/home', icon: 'mail' },
     { title: '帮助中心', url: '/home', icon: 'help-circle' },
   ];
+  public userName = '';
+  public phone = '';
   constructor(private toastCtrl: ToastController,
               private localStorageService: LocalStorageService,
               private router: Router) { }
 
   ngOnInit() {
+    this.userName = this.localStorageService.get('user').userName;
+    this.phone = this.localStorageService.get('user').accounts[0].identifier;
   }
 
   async Tips() {

@@ -32,6 +32,7 @@ export class AppComponent {
       { title: '帮助中心', url: 'tabs/home', icon: 'help-circle' }
     ];
   }
+  public uid = '';
   public shopName = '';
   public phone = '';
 
@@ -39,9 +40,10 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      const user = this.localStorageService.get('user', '');
+      const user = this.localStorageService.get('user', null);
       if ( user != null) {
         this.shopName = user.shopName;
+        this.uid = user.uid;
         this.phone = user.accounts[0].identifier;
       }
     });
