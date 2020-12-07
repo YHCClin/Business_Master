@@ -3,10 +3,21 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title class="text-center">店铺信息</ion-title>
+    <ion-title>{{title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content padding>
+  <form>
+    <ion-list style="width:95%;margin:auto;">
+      <ion-item>
+        <ion-input name="{{property}}" type="text" [(ngModel)]="value" required placeholder="{{title}}"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div padding-horizontal align="center">
+      <ion-button expand="block" color="primary" (click)="onSave()">保存</ion-button>
+    </div>
+  </form>
 </ion-content>
+
+

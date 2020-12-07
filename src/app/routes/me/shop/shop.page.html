@@ -1,9 +1,50 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>shop</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>店铺信息</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
 
+<ion-content padding color="light">
+  <ion-list inset="true">
+    <ion-item detail lines="none" routerLink="/me/shop/shop-edit" [queryParams]="{title:'店铺名称',property:'shopName'}">
+      <ion-label class="txt">店铺名称</ion-label>
+      <ion-note item-end class="txt">{{shop.shopName}}</ion-note>
+    </ion-item>
+    <ion-item detail lines="none" routerLink="/me/shop/shop-edit" [queryParams]="{title:'店铺简称',property:'shortName'}">
+      <ion-label class="txt">店铺简称</ion-label>
+      <ion-note item-endj class="txt">{{shop.shortName}}</ion-note>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label class="txt">注册时间</ion-label>
+      <ion-note item-end class="txt">{{shop.creatTime}}</ion-note>
+    </ion-item>
+    <ion-item detail lines="none" routerLink="/me/shop/shop-edit" [queryParams]="{title:'手机号码',property:'phone'}">
+      <ion-label class="txt">手机号码</ion-label>
+      <ion-note item-end class="txt">{{shop.phone}}</ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-list inset="true">
+    <ion-item detail lines="none" routerLink="/me/shop/shop-edit" [queryParams]="{title:'电子邮箱',property:'email'}">
+      <ion-label class="txt">电子邮箱</ion-label>
+      <ion-note item-end class="txt">{{shop.email}}</ion-note>
+    </ion-item>
+    <ion-item detail lines="none" routerLink="/me/shop/shop-edit" [queryParams]="{title:'店主姓名',property:'shopKeeperName'}">
+      <ion-label class="txt">店主姓名</ion-label>
+      <ion-note item-end class="txt">{{shop.shopKeeperName}}</ion-note>
+    </ion-item>
+    <ion-item detail lines="none" routerLink="/me/shop/shop-edit" [queryParams]="{title:'店铺电话',property:'shopTel'}">
+      <ion-label class="txt">店铺电话</ion-label>
+      <ion-note item-end class="txt">{{shop.shopTel}}</ion-note>
+    </ion-item>
+    <ion-item detail lines="none" routerLink="/me/shop/shop-edit" [queryParams]="{title:'行业类型',property:'shopType'}">
+      <ion-label class="txt">行业类型</ion-label>
+      <ion-note item-end class="txt">{{shop.shopType}}</ion-note>     
+    </ion-item>
+   
+  </ion-list>
 </ion-content>

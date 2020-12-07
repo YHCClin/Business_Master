@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar no-border color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text="返回" color="white"></ion-back-button>
+    </ion-buttons>
+    <ion-title text-center>关于我们</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header><b>工程实训</b></ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label><b>学号：</b></ion-label>
+          <ion-note>200327140</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label><b>姓名：</b></ion-label>
+          <ion-note>林宇航</ion-note>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label><b>已完成功能:</b></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text>
+            <li>欢迎界面：若不是第一次登陆则跳转到home界面；否则，进入欢迎界面</li>
+            <li>注册界面：用手机号和邮箱进行注册；注册后存储在本地；随机生成验证码（倒计时）；MD5加密</li>
+            <li>登陆界面：判断用户上次登陆时间，若超过5天则重新登陆；对比本地数据进行登陆用户信息</li>
+            <li>找回密码界面：</li>
+            <li>版权声明：封装版权声明功能</li>
+            <li>主页界面：实现左侧菜单栏；在主页显示用户信息</li>
+            <li>店铺信息设置：实现页面的数据通信</li>
+          </ion-text>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label><b>未完成功能：</b></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text>
+            <li>短信发送验证码</li>
+          </ion-text>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label><b>学习与收获：</b></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text>
+            在这段时间里，我们学习了ionic+angular开发，并实现了一些基本的界面。通过这段时间的学习，让我了解到了App布局的方式，<br>
+            知道了一些angular基本语法。在实践中，依据所给的文档，实现所需要的功能和界面。在这过程中，提高了我解决问题的能力,<br>
+            了解到一款app的研发需要的具体流程。收获颇多
+          </ion-text>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label><b>意见与建议</b></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text>
+            对于每次作业，希望老师能在课程上讲讲同学们作业中存在的问题。还有就是希望老师能好好完善下文档！
+          </ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>日期</ion-label>
+          <ion-note item-end>{{Data}}</ion-note>
+        </ion-item>
+      </ion-list>
+      
+      
+      </ion-card-content>
+  </ion-card>
+</ion-content>

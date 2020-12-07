@@ -54,7 +54,7 @@ export class ForgotPasswordPage implements OnInit {
         duration: 3000
       });
       toast.present();
-    } else if (this.account != user.accounts[0].identifier && this.account != user.accounts[1].identifier) {
+    } else if (this.account !== user.accounts[0].identifier && this.account !== user.accounts[1].identifier) {
       const alert = await this.alertCtrl.create({
         header: '提示',
         message: '该账号未注册',

@@ -22,19 +22,34 @@ export class PassportServiceService {
     // 定义User结构
     const user = {
       userName: '',
-      shopName: shopname,
       accounts: [],
       uid: '',
-      createTime: ''
+      createTime: '',
+      shopInfo: {
+        shopName: '',
+        shortName: '',
+        phone: '',
+        email: '',
+        shopKeeperName: '',
+        shopTel: '',
+        shopType: ''
+      }
     };
     // 两种登录方式，两个账号分别为手机、邮箱
     user.accounts[0] = { identifier: phone, passwordToken: password};
     user.accounts[1] = { identifier: email, passwordToken: password};
-    const time = new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace('/T/g', ' ').replace('/\.[\d]{3}Z/', '');
+    const time = new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
     this.localStorageService.set('signupTime', time);
+    user.userName = shopname;
     user.createTime = time;
     user.uid = 'uid' + Date.now().toString();
-    user.userName = shopname; // 用户名可更改，默认为店铺名
+    user.shopInfo.shopName = shopname;
+    user.shopInfo.shortName = shopname;
+    user.shopInfo.shopKeeperName = shopname;
+    user.shopInfo.phone = phone;
+    user.shopInfo.email = email;
+    user.shopInfo.shopTel = phone;
+
     this.localStorageService.set('user', user); // 写入当前登录用户信息
     console.log(user);
     accounts.push(user); // 新用户进用户表
@@ -48,7 +63,7 @@ export class PassportServiceService {
     for (const act of accounts) {
       if ((phoneOrEmail == act.accounts[0].identifier && password == act.accounts[0].passwordToken)
         || (phoneOrEmail == act.accounts[1].identifier && password == act.accounts[1].passwordToken)) {
-        const loginTime = new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace('/T/g', ' ').replace('/\.[\d]{3}Z/', '');
+        const loginTime = new Date(+new Date() + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
         // 记录登录时间，过期时间，账号
         this.localStorageService.set('loginTime', loginTime);
         this.localStorageService.set('expiredTime', Date.now() + 5 * 24 * 60 * 60 * 1000);

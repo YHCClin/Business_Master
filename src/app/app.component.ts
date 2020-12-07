@@ -43,7 +43,7 @@ export class AppComponent {
       this.splashScreen.hide();
       const user = this.localStorageService.get('user', null);
       if ( user != null) {
-        this.shopName = user.shopName;
+        this.shopName = user.shopInfo.shopName;
         this.uid = user.uid;
         this.phone = user.accounts[0].identifier;
       }

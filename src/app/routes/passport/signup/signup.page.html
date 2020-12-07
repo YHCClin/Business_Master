@@ -51,16 +51,25 @@
         <ion-grid fixed>
           <ion-row>
             <ion-col size="12">
-              <ion-input name="phone" type="number" placeholder="请输入您的手机号码" required  pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$" [(ngModel)]="signup.phone" #phone="ngModel">
+              <ion-input name="phone" type="number" placeholder="请输入您的手机号码" required  [lyhConfirmPhone]="phone.value" [(ngModel)]="signup.phone" #phone="ngModel">
               </ion-input>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="12">
+            <ion-col size="12" *ngIf="phone.invalid && phone.touched" lines="none">
+              <!--
               <ion-text text-left color="danger" *ngIf="(phone.invalid && phone.touched) || submited">
                 <p [hidden]="!phone.errors?.required" padding-start>请输入您的手机号码</p>
                 <p [hidden]="!phone.errors?.pattern" padding-start>您输入的手机号格式不正确</p>
             </ion-text>
+            -->
+
+               <ion-text color="danger" *ngIf="phone.errors?.confirmPhone" align="center"> <!--自定义表单验证-->
+                  手机号格式错误
+                </ion-text>
+                <ion-text color="danger" *ngIf="phone.errors?.required" align="center">
+                  请输入手机号
+                </ion-text>
             </ion-col>
           </ion-row>
                 

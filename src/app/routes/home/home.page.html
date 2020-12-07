@@ -23,7 +23,7 @@
     <ion-row>
       <ion-col *ngFor="let s of sales">
         <h6><strong>{{s.title}}</strong></h6>
-        <h4><span>{{564.678 | number:'1.2-2'}}元</span></h4>
+        <h4><span>{{s.current | number:'1.2-2'}}元</span></h4>
         <p>
           {{s.content}}
           <span [ngClass]="{'less-equal': s.current - s.previous <= 0,'greater': s.current - s.previous > 0}">
@@ -47,4 +47,5 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <lyh-copyright></lyh-copyright>
 </ion-content>

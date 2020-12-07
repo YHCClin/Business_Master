@@ -20,18 +20,18 @@ export class StartAppGuard implements CanActivate {
       mobile: '18359135336',
       launched: false
     });
+    if (appConfig.launched === false){
+      appConfig.launched = true;
+      this.localStorageService.set(APP_KEY, appConfig);
+    } else {
+      this.router.navigateByUrl('/passport/login');
+    }
     const UserExpiredTime = this.localStorageService.get('expiredTime');
     if (Date.now() < UserExpiredTime) {
       this.router.navigateByUrl('/tabs/home');
       return true;
     } else {
       this.localStorageService.set('user', null);
-    }
-    if (appConfig.launched === false){
-      appConfig.launched = true;
-      this.localStorageService.set(APP_KEY, appConfig);
-    } else {
-      this.router.navigateByUrl('/passport/login');
     }
     return true;
   }
