@@ -113,8 +113,8 @@ export class SignupPage implements OnInit {
     }
   }
 
-  oncheckInformation() {
-    if (this.signup.password !== '' && this.signup.password === this.signup.confirmPassword && this.saveUser()) {
+  async oncheckInformation() {
+    if (this.signup.password !== '' && this.signup.password === this.signup.confirmPassword && (await this.saveUser()).success) {
         this.onNext();
         this.params.checkInformationResult = false;
     } else {
@@ -123,15 +123,15 @@ export class SignupPage implements OnInit {
     }
   }
 
-  async saveUser(): Promise<boolean> {
+  async saveUser(): Promise<AjaxResult> {
     const res: any = (await this.passportService.addUser(this.signup.phone, this.signup.email,
       this.signup.password, this.signup.shopName));
     if (res.success === true) {
       console.log('注册成功');
-      return true;
+      return new AjaxResult(true, null);
     } else {
       console.log('注册失败');
-      return false;
+      return new AjaxResult(false, null);
     }
   }
 

@@ -16,8 +16,6 @@ export class ShopEditPage implements OnInit {
   property: string;
   value: any; // 用于ngModel，从shop对象的相关属性中获取数据
   constructor(private activatedRoute: ActivatedRoute,
-              private localStorageService: LocalStorageService,
-              private toastCtrl: ToastController,
               private statusBar: StatusBar,
               private settingService: SettingService,
               private router: Router) {

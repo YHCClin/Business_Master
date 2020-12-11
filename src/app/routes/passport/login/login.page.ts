@@ -31,13 +31,14 @@ export class LoginPage implements OnInit {
     const lastLoginAccount = this.localStorageService.get('lastLoginAccount', null);
     const expiredTime = this.localStorageService.get('expiredTime', null);
     this.userName = lastLoginAccount;
-    if (alreadySignup) {
+    if (alreadySignup && account !== null) {
       this.userName = this.localStorageService.get('user').accounts[0].identifier;
       this.password = this.localStorageService.get('user').accounts[0].passwordToken;
       this.localStorageService.set('alreadySignup', false);
     }
-    else if (account != null && lastLoginAccount != null && expiredTime != null &&  (Date.now() > expiredTime)) {
+    else if (lastLoginAccount != null && expiredTime != null &&  (Date.now() > expiredTime)) {
       this.userName = lastLoginAccount;
+      this.password = null;
       this.localStorageService.set('user', null); // 忘记用户登录
     }
   }

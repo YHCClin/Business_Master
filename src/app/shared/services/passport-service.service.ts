@@ -14,7 +14,7 @@ export class PassportServiceService {
     const accounts = await this.localStorageService.get('TUser', []);
     console.log('account:' + account);
     for (const act of accounts) {
-      if (account != null && (phone === act.accounts[0].identifier || email === act.accounts[1].identifier)) {
+      if ((phone === act.accounts[0].identifier || email === act.accounts[1].identifier)) {
         console.log('该账号已经注册过了');
         return new AjaxResult(false, null, {message: '您的手机号已经被注册', details: ''});
       }

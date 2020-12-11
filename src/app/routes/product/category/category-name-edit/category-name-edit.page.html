@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      修改分类名称
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <ion-text *ngIf="platform.is('ios')">取消</ion-text>
+        <ion-icon *ngIf="platform.is('android')" name="arrow-back"></ion-icon>
+       </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <form (ngSubmit)="onSave()"  >
+    <ion-list>
+      <ion-item >
+        <ion-input name="newName" #newName="ngModel" [(ngModel)]="name" type="text" required> </ion-input>
+      </ion-item>
+    </ion-list>
+    <div class="ion-padding-horizontal">
+      <ion-button color="primary" type="submit" expand="full" [disabled]="newName.invalid">
+        保存
+      </ion-button>
+    </div>
+  </form>
+</ion-content>
