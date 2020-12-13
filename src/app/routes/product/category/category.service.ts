@@ -12,7 +12,6 @@ export const CATE_KEY = 'Category';
   providedIn: 'root'
 })
 export class CategoryService {
-
   constructor(private localStorageService: LocalStorageService) { }
   categorySubject = new Subject<ActiveCategory>();
   setTmpCategory(cate: Category) {
@@ -28,28 +27,21 @@ export class CategoryService {
   watchCategory(): Observable<ActiveCategory> {
     return this.categorySubject.asObservable();
   }
-  getAll2(): any {
-    const categories  = this.localStorageService.get(CATE_KEY, CATEGORIES);
-    console.log(categories);
-    return {
-      targetUrl: '',
-      result: categories,
-      success: true,
-      error: null,
-      unAuthorizedRequest: false
-    };
-  }
-  new_a_Bigid(): any {
+
+  // 生成一个大分类ID
+  newBigId(): any {
     const categories = this.localStorageService.get(CATE_KEY, CATEGORIES);
     return categories[categories.length - 1].id + 1;
   }
-  new_a_smallid(p: Array<Category> , id: number ): any{
+
+  // 生成一个小分类ID
+  newSmallId(p: Array<Category> , id: number ): any{
     if (p.length === 0) {return id * 100 + 1; }
     else {
       return p[p.length - 1].id + 1;
     }
   }
-  isUniquesmallName(p: Category[]): boolean {
+  isUniqueSmallName(p: Category[]): boolean {
     for (let i = 0; i < p.length; i++) {
       for (let j = i + 1; j < p.length; j++) {
         if (p[i].name === p[j].name) { return false; }
@@ -57,12 +49,11 @@ export class CategoryService {
     }
     return true;
   }
-  isUniquebigName(p: Category): boolean{
+  isUniqueBigName(p: Category): boolean{
     const categories = this.localStorageService.get(CATE_KEY, CATEGORIES);
-
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < categories.length; i++) {
-      if (p.name === String(categories.name)) {
+      if (p.name == String(categories.name)) {
         return false;
       }
     }
@@ -70,16 +61,18 @@ export class CategoryService {
   }
   insert(p: Category): any {
     const categories = this.localStorageService.get(CATE_KEY, CATEGORIES);
- // tslint:disable-next-line:prefer-for-of
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < categories.length; i++) {
-      if (p.name === String(categories.name)) {
+      if (p.name === String(categories[i].name)) {
+        console.log('大分类已存在');
         return {
           success: false,
           message: '大分类名称已存在',
         };
       }
     }
-    if (!this.isUniquesmallName(p.children)){
+    if (!this.isUniqueSmallName(p.children)){
+      console.log('小分类重复');
       return {
         success: false,
         message: '小分类名称不能重复'
@@ -103,13 +96,13 @@ export class CategoryService {
     return null;
   }
   update(p: Category): any {
-    if (!this.isUniquebigName(p)){
+    if (!this.isUniqueBigName(p)){
       return {
         success: false,
         message: '大分类名称已存在'
       };
     }
-    if (!this.isUniquesmallName(p.children)){
+    if (!this.isUniqueSmallName(p.children)){
       return {
         success: false,
         message: '小分类名称不能重复'
@@ -141,21 +134,21 @@ export class CategoryService {
     if (category === null) {
       return false;
     }
-    const tmp1 = this.localStorageService.get('Category', CATEGORIES);
+    const Cates = this.localStorageService.get('Category', CATEGORIES);
     const index = this.findCategoryIndexByName(category.name);
     if (index === -1) {
       return false; // 未能找到索引
     }
-    const chilrenIndex = tmp1[index].children.length + index * 10;
+    const chilrenIndex = Cates[index].children.length + index * 10;
     return chilrenIndex;
 
   }
   findCategoryById(id: number): Category {
-    const g = this.localStorageService.get('Category', CATEGORIES);
+    const Cates = this.localStorageService.get('Category', CATEGORIES);
     // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < g.length; i++ ) {
-      if (g[i].id === id) {
-        return g[i];
+    for (let i = 0; i < Cates.length; i++ ) {
+      if (Cates[i].id === id) {
+        return Cates[i];
       }
     }
     return null;
@@ -166,6 +159,7 @@ export class CategoryService {
     }
     for (let i = 0; i < category.children.length; i++) {
       if (category.children[i].id === id) {
+        console.log('找到子分类');
         const index = this.findCategoryIndexByName(category.name);
         const tmp = this.localStorageService.get('Category', CATEGORIES);
         tmp[index].children.splice(i, 1);

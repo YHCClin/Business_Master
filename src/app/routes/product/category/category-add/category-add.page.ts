@@ -15,6 +15,7 @@ export class CategoryAddPage implements OnInit {
   public id = 0;
   public category: Category;
   public children: Array<Category> = [ ];
+
   constructor(private activatedRoute: ActivatedRoute,
               private categoryService: CategoryService,
               private alertController: AlertController,
@@ -22,42 +23,42 @@ export class CategoryAddPage implements OnInit {
     this.activatedRoute.queryParams.subscribe(queryParams => {
       this.isSmall =  Number(queryParams.isSmall) ;
       this.id = Number(queryParams.id);
-      if (this.isSmall === 1 ){
+      if (this.isSmall === 1 ){ // 新增小分类
         this.category = this.categoryService.get(this.id);
         this.children.push( {
-          id: this.categoryService.new_a_smallid(this.category.children, this.category.id),
+          id: this.categoryService.newSmallId(this.category.children, this.category.id),
           name: '',
           children: []
         });
-      } else {
+      } else {  // 新增大分类
         this.category = {
-          id: this.categoryService.new_a_Bigid(),
+          id: this.categoryService.newBigId(),
           name: '',
           children: []
         };
         this.children.push( {
-          id: this.categoryService.new_a_smallid(this.children, this.category.id),
+          id: this.categoryService.newSmallId(this.children, this.category.id),
           name: '',
           children: []
         });
       }
 
     });
-
-
   }
 
   ngOnInit() {
 
   }
 
+  // 新增小分类
   onAddSubCategory(){
     this.children.push( {
-      id: this.categoryService.new_a_smallid(this.children, this.category.id),
+      id: this.categoryService.newSmallId(this.children, this.category.id),
       name: '',
       children: []
     });
   }
+
   onSave(){
     if (this.isSmall === 0){
       this.category.children = this.children;

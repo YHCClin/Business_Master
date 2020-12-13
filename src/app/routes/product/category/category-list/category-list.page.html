@@ -40,12 +40,12 @@
             <ion-label color="primary">新增小分类</ion-label>
           </ion-item>
         </ion-list>
-        <ion-list class="list-footer" color="light"   >
-          <ion-item lines="full">
+        <ion-list class="list-footer">
+          <ion-item lines="none" class="ion-no-padding">
             <ion-text  *ngIf="activeSubCategoryes.length===0"><h6>目前没有小分类</h6></ion-text>
               <ion-text  *ngIf="activeSubCategoryes.length!==0">共{{activeSubCategoryes.length}}种商品分类</ion-text>
-              <ion-button  color="primary"  slot="end" (click)="onPresentActionSheet()">
-                <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+              <ion-button slot="end" (click)="onPresentActionSheet()">
+                <ion-icon name="infinite-outline"></ion-icon>
               </ion-button>
           </ion-item>
         </ion-list>

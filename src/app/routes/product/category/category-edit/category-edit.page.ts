@@ -16,8 +16,10 @@ export class CategoryEditPage implements OnInit {
   @ViewChild('SmallitemSliding', {static: true}) SmallitemSliding: IonItemSliding;
   public id = 0;
   category: Category;
-  constructor(private activatedRoute: ActivatedRoute, private categoryService: CategoryService,
-              private modalController: ModalController, private alertController: AlertController,
+  constructor(private activatedRoute: ActivatedRoute,
+              private categoryService: CategoryService,
+              private modalController: ModalController,
+              private alertController: AlertController,
               private router: Router) {
       activatedRoute.queryParams.subscribe(queryParams => {
         this.id = Number(queryParams.id);
@@ -28,11 +30,7 @@ export class CategoryEditPage implements OnInit {
   ngOnInit() {
   }
 
-  refresh(){
-    this.category = this.categoryService.get(this.id);
-  }
-
-
+  // 自定义弹出框
   private async presentModal(name: string) {
     const modal = await this.modalController.create({
       component: CategoryNameEditPage,
@@ -42,6 +40,10 @@ export class CategoryEditPage implements OnInit {
     return modal.onWillDismiss();
   }
 
+  /**
+   * 编辑大类名称
+   * @param item
+   */
   async onEditCategoryName(item: IonItemSliding) {
     item.close();
     const {data} = await this.presentModal(this.category.name);
@@ -50,6 +52,11 @@ export class CategoryEditPage implements OnInit {
       this.categoryService.update(this.category);
     }
   }
+  /**
+   * 编辑小类名称
+   * @param item
+   * @param subCategory
+   */
   async onEditSubCategoryName(item: IonItemSliding, subCategory: Category) {
     item.close();
     const {data} = await this.presentModal(subCategory.name);
@@ -64,6 +71,11 @@ export class CategoryEditPage implements OnInit {
       this.categoryService.update(this.category);
     }
   }
+  /**
+   * 删除（大/小）类别
+   * @param item
+   * @param subId
+   */
   async onDelete(item: IonItemSliding, subId?: number) {
     item.close();
     console.log('asds' + subId);
@@ -81,14 +93,15 @@ export class CategoryEditPage implements OnInit {
         }, {
           text: '确认',
           handler: () => {
-            console.log('jinlail');
             if (subId != null && this.category.children.length !== 0) { // 删除商品子分类
-              console.log('Confirm Okay');
+              console.log('删除子分类中');
               item.close();
-              this.categoryService.deleteSubCategoryById(this.category, subId);
+              const res = this.categoryService.deleteSubCategoryById(this.category, subId);
+              if (res) {
+                console.log('删除成功');
+              }
               this.category = this.categoryService.findCategoryById(this.id);
             } else if (this.category.children.length === 0) { // 删除商品分类
-              console.log('我进来了');
               item.close();
               this.categoryService.deleteCategoryById(this.category.id);
               this.router.navigateByUrl('/product/category/list');
