@@ -13,7 +13,10 @@ export const CATE_KEY = 'Category';
 })
 export class CategoryService {
   constructor(private localStorageService: LocalStorageService) { }
+
+  // 主题类型属性
   categorySubject = new Subject<ActiveCategory>();
+
   setTmpCategory(cate: Category) {
     throw new Error('Method not implemented.');
   }
@@ -26,6 +29,9 @@ export class CategoryService {
 
   watchCategory(): Observable<ActiveCategory> {
     return this.categorySubject.asObservable();
+  }
+  setActiveCategory(category: ActiveCategory) {
+    this.categorySubject.next(category);
   }
 
   // 生成一个大分类ID

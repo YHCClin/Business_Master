@@ -38,7 +38,7 @@ public items: Array<{title: string, icon: string, url: string}> = [
   {
     title: '新增商品',
     icon: 'bag-add-outline',
-    url: ''
+    url: '/product/add-product'
   },
   {
     title: '新增会员',

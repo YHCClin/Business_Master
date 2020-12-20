@@ -8,9 +8,13 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { Camera } from '@ionic-native/camera/ngx';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 import { HttpClientModule } from '@angular/common/http';
 import { CategoryListPage } from './routes/product/category/category-list/category-list.page';
+import {ImagePicker} from '@ionic-native/image-picker/ngx';
+import { Product } from './routes/product/product';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +23,12 @@ import { CategoryListPage } from './routes/product/category/category-list/catego
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    BarcodeScanner,
+    Camera,
+    ImagePicker,
+    Product,
+    Location
   ],
   bootstrap: [AppComponent]
 })

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { Category } from 'src/app/routes/product/category/Category';
 import { CategoryService } from '../category.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-category-list',
@@ -18,7 +19,8 @@ export class CategoryListPage implements OnInit {
 
   constructor(private categoryService: CategoryService,
               private actionSheetController: ActionSheetController,
-              private router: Router) {
+              private router: Router,
+              private location: Location) {
     this.categoryService.getAll().then((data) => {
       this.categories =  data.result;
       if (this.categories){
@@ -30,6 +32,8 @@ export class CategoryListPage implements OnInit {
 
   ngOnInit() {
   }
+
+
   daterefresh(){
     this.categoryService.getAll().then(  (data) => {
       this.categories =  data.result;
@@ -47,7 +51,10 @@ export class CategoryListPage implements OnInit {
     this.activeCategory = this.categories[id - 1];
     this.activeSubCategoryes = this.activeCategory.children;
   }
-  onSelectSubCategory() { }
+  onSelectsmallCategory(category: Category) {
+    this.categoryService.setActiveCategory(category);
+    this.location.back();
+  }
 
   async onPresentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
