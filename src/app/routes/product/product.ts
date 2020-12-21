@@ -3,7 +3,7 @@ import { Supply } from './supply';
 export class Product {
     id: string;
     name: string;
-    categoryId: number;
+    categoryId: string;
     categoryName: string;
     category: any;
     barcode: string;

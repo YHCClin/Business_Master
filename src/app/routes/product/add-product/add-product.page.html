@@ -16,8 +16,8 @@
         <ion-thumbnail slot="start" (click)="Choose()">
           <img src="assets/images/addProduct/supplier_icon.png">
         </ion-thumbnail>
-        <ion-thumbnail *ngFor="let image of product?.images">
-          <img src={{image}} >
+        <ion-thumbnail *ngFor="let image of product?.images" style="margin-right: 2px;">
+          <img src={{image}}>
         </ion-thumbnail>
         <ion-note style="font-size: 15px;" slot="end">上传图片</ion-note>
       </ion-item-divider>

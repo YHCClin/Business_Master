@@ -11,6 +11,7 @@ import { ProductService } from '../product.service';
 import { Supply } from '../supply';
 import { Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import { SelectSupplierPage } from '../select-supplier/select-supplier.page';
+import { ActiveCategory } from '../category/ActiveCategory';
 
 
 
@@ -23,7 +24,7 @@ import { SelectSupplierPage } from '../select-supplier/select-supplier.page';
 export class AddProductPage implements OnInit, OnDestroy {
 
   subscription: Subscription;
-  product: Product;
+  product: Product = new Product();
 
 
   constructor(private actionSheetCtrl: ActionSheetController,
@@ -44,19 +45,19 @@ export class AddProductPage implements OnInit, OnDestroy {
     // this.ionViewDidEnter();
     // 观察者
     this.subscription = categoryService.watchCategory().subscribe(
-      (activeCategory) => {
+      (activeCategory: ActiveCategory) => {
         this.product.categoryName = activeCategory.name;
+        this.product.category = activeCategory;
       },
-      (error) => {
+      (error: ActiveCategory) => {
+        this.subscription.unsubscribe();
       }
     );
 
   }
 
-  ngOnInit() {
-    this.product = new Product();
-  }
-  // tslint:disable-next-line:use-lifecycle-interface
+
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
@@ -239,7 +240,8 @@ export class AddProductPage implements OnInit, OnDestroy {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType: this.camera.PictureSourceType.CAMERA
     };
 
     this.camera.getPicture(options).then((imageData) => {
@@ -248,29 +250,54 @@ export class AddProductPage implements OnInit, OnDestroy {
       const base64Image = 'data:image/jpeg;base64,' + imageData;
       this.product.images.push(base64Image);
     }, (err) => {
-      // Handle error
+      console.log(err);
     });
   }
 
   ionViewDidEnter(){
+    console.log('进入页面');
   }
 
   /**
    * 从相册中选取
    */
   onImagePicker() {
-    const options: ImagePickerOptions = {
-      maximumImagesCount: 4,
-      quality: 100
+    const options: CameraOptions = {
+      quality: 10,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType: 0
     };
-    this.imagePicker.getPictures(options).then((results) => {
-      // tslint:disable-next-line:prefer-for-of
-      for (let i = 0; i < results.length; i++) {
-        console.log('Image URI: ' + results[i]);
-        this.product.images.push(results[i]);
-      }
-    }, (err) => { });
+
+    this.camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):
+     const base64Image = 'data:image/jpeg;base64,' + imageData;
+     this.product.images.push(base64Image);
+    }, (err) => {
+     // Handle error
+    });
   }
+
+
+
+  // onImagePicker() {
+  //   const options: ImagePickerOptions = {
+  //     maximumImagesCount: 4,
+  //     quality: 100,
+  //     outputType: 1
+  //   };
+  //   this.imagePicker.getPictures(options).then((results) => {
+  //     // tslint:disable-next-line:prefer-for-of
+  //     for (let i = 0; i < results.length; i++) {
+  //       console.log('Image URI: ' + results[i]);
+  //       this.product.images.push(results[i]);
+  //     }
+  //   }, (err) => {
+  //     console.log('Error', err);
+  //   });
+  // }
 
   /**
    * 转跳到商品类别界面
@@ -282,6 +309,7 @@ export class AddProductPage implements OnInit, OnDestroy {
 
 
   initProduct(): Product {
+    // return new Product();
     return {
       id: '',
       name: '',
@@ -290,14 +318,32 @@ export class AddProductPage implements OnInit, OnDestroy {
       category: null,
       barcode: '',
       images: [],
-      price: 0,
-      purchasePrice: 0,
-      inventory: 0,
+      price: null,
+      purchasePrice: null,
+      inventory: null,
+      supplierName: null,
+      supplierPhone: null,
       standard: '',
-      remark: '',
-      supplierName: '',
-      supplierPhone: ''
+      remark: ''
     };
+    // return {
+    //   id: '',
+    //   name: '',
+    //   categoryId: null,
+    //   categoryName: '',
+    //   category: null,
+    //   barcode: '',
+    //   images: [],
+    //   price: 0,
+    //   purchasePrice: 0,
+    //   inventory: 0,
+    //   standard: '',
+    //   remark: '',
+    //   supplierName: '',
+    //   supplierPhone: ''
+    // };
+  }
+  ngOnInit() {
   }
 
 }
