@@ -23,8 +23,16 @@ export class ProductService {
     supplier.name = input.supplierName;
     supplier.phone = input.supplierPhone;
     const suppliers = this.localStorageService.get('suppliers', []);
-    suppliers.push(supplier);
-    this.localStorageService.set('suppliers', suppliers);
+    let flag = false;
+    for ( const sup of suppliers ){
+      if (sup.name == supplier.name){
+        flag = true;
+      }
+    }
+    if (!flag){
+      suppliers.push(supplier);
+      this.localStorageService.set('suppliers', suppliers);
+    }
     this.localStorageService.set('products', products);
     return new AjaxResult(true, null);
   }

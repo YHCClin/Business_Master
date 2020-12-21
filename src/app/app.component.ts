@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LocalStorageService } from './shared/services/local-storage.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -31,6 +32,7 @@ export class AppComponent {
       { title: '反馈建议', url: 'tabs/home', icon: 'mail' },
       { title: '帮助中心', url: 'tabs/home', icon: 'help-circle' }
     ];
+    this.statusBar.overlaysWebView(true);
     this.ionViewDidLeave();
   }
   public uid = '';
