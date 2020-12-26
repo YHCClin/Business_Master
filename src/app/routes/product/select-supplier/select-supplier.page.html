@@ -5,12 +5,7 @@
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()">
-        <ion-show-when mode="ios">
-          <ion-text color="primary">取消</ion-text>
-        </ion-show-when>
-        <ion-show-when mode="md">
-          <ion-icon name="close" style="font-size: 50px;"></ion-icon>
-        </ion-show-when>
+          <ion-icon name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -18,9 +13,9 @@
 
 <ion-content padding>
   <form>
-    <ion-list>
-      <ion-item>
-        <ion-text>现有供应商如下：</ion-text>
+    <ion-list style="padding:0;">
+      <ion-item color="light" lines="none">
+        <ion-text>请选择供应商：</ion-text>
       </ion-item>
       <ion-item *ngFor="let s of suppliers" (click)="onClick(s)"
                 [ngClass]="{'item-active': s.name == activeSupplier.name}">

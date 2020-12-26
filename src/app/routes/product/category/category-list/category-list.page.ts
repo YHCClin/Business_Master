@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { Category } from 'src/app/routes/product/category/Category';
 import { CategoryService } from '../category.service';
@@ -16,8 +16,10 @@ export class CategoryListPage implements OnInit {
   activeCategory: Category = { id: 0, name: '', children: [] };
   activeSubCategoryes: Array<Category> = [];
   activeSubCategory: Category;
+  isFromAddProductView = false;
 
-  constructor(private categoryService: CategoryService,
+  constructor(private activatedRoute: ActivatedRoute,
+              private categoryService: CategoryService,
               private actionSheetController: ActionSheetController,
               private router: Router,
               private location: Location) {
@@ -27,6 +29,9 @@ export class CategoryListPage implements OnInit {
         this.activeCategory = this.categories[0];
         this.activeSubCategoryes = this.activeCategory.children;
       }
+    });
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+      this.isFromAddProductView = queryParams.isFromAddProductView;
     });
   }
 

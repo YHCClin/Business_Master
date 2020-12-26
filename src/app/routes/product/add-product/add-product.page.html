@@ -19,7 +19,7 @@
         <ion-thumbnail *ngFor="let image of product?.images" style="margin-right: 2px;">
           <img src={{image}}>
         </ion-thumbnail>
-        <ion-note style="font-size: 15px;" slot="end">上传图片</ion-note>
+        <ion-note style="font-size: 15px;margin:auto;padding-right: 10px;line-height:15px;" slot="end">上传图片</ion-note>
       </ion-item-divider>
       <ion-item>
         <ion-label position="fixed">条码</ion-label>
@@ -35,9 +35,9 @@
         <ion-label position="fixed">名称<ion-text color="danger">*</ion-text></ion-label>
         <ion-input name="name" required type="text" pattern="^[\u4e00-\u9fa5_a-zA-Z0-9]+$" [(ngModel)]="product.name" #name="ngModel" placeholder="请不要输入特殊字符"></ion-input>
       </ion-item>
-      <ion-item detail (click)="goToCatList()">
+      <ion-item detail routerLink="/product/category/list" [queryParams]="{isFromAddProductView: true}">
         <ion-label position="fixed">分类<ion-text color="danger">*</ion-text></ion-label>
-        <ion-note style="font-size: 15px;margin: auto;" slot="end">{{product.categoryName}}</ion-note>
+        <ion-note style="font-size: 15px;line-height:15px;" slot="end">{{product.categoryName}}</ion-note>
       </ion-item>
       <br />
       <ion-item>
@@ -63,9 +63,9 @@
         <ion-label position="fixed">备注</ion-label>
         <ion-input name="remark" requierd type="text" [(ngModel)]="product.remark" placeholder="输入商品备注"></ion-input>
       </ion-item>
-      <ion-item detail (click)="onSupplier()">
+      <ion-item detail (click)="onClickSupplier()">
         <ion-label position="fixed">供货商</ion-label>
-        <ion-note style="font-size: 15px;margin:auto;" slot="end">{{product.supplierName}}</ion-note>
+        <ion-note style="font-size: 15px;line-height:15px;" slot="end">{{product.supplierName}}</ion-note>
       </ion-item>
     </ion-list>
   </form>

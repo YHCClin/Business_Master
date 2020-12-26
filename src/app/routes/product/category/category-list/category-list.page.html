@@ -27,7 +27,20 @@
         </ion-list>
       </ion-col>
       <ion-col size="7" class="ion-no-padding">
-        <ion-list  lines="none" class="ion-no-padding">
+        <ion-list *ngIf="!isFromAddProductView" lines="none" class="ion-no-padding">
+          <!--
+          <ion-item lines="full">小分类</ion-item>
+          <ion-item lines="full">无小分类进入大分类</ion-item>
+          -->
+          <ion-item detail *ngFor="let asc of activeSubCategoryes" lines="full" routerLink="/product/product-list" [queryParams]="{subCategory: asc.id, flag: true}">
+            {{asc.name}}
+          </ion-item>
+          <ion-item  routerLink="../add" [queryParams]="{isSmall: 1 , id: activeCategory.id}" >
+            <ion-icon slot="start" name='add-circle' color="primary"></ion-icon>
+            <ion-label color="primary">新增小分类</ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-list *ngIf="isFromAddProductView" lines="none" class="ion-no-padding">
           <!--
           <ion-item lines="full">小分类</ion-item>
           <ion-item lines="full">无小分类进入大分类</ion-item>
@@ -35,7 +48,7 @@
           <ion-item detail *ngFor="let asc of activeSubCategoryes" lines="full" (click)="onSelectsmallCategory(asc)" >
             {{asc.name}}
           </ion-item>
-          <ion-item  routerLink="../add" [queryParams]="{isSmall: 1 , id: activeCategory.id }" >
+          <ion-item  routerLink="../add" [queryParams]="{isSmall: 1 , id: activeCategory.id}" >
             <ion-icon slot="start" name='add-circle' color="primary"></ion-icon>
             <ion-label color="primary">新增小分类</ion-label>
           </ion-item>

@@ -26,7 +26,6 @@ export class AddProductPage implements OnInit, OnDestroy {
   subscription: Subscription;
   product: Product = new Product();
 
-
   constructor(private actionSheetCtrl: ActionSheetController,
               private productService: ProductService,
               private navCtrl: NavController,
@@ -48,6 +47,7 @@ export class AddProductPage implements OnInit, OnDestroy {
       (activeCategory: ActiveCategory) => {
         this.product.categoryName = activeCategory.name;
         this.product.category = activeCategory;
+        this.product.categoryId = activeCategory.id;
       },
       (error: ActiveCategory) => {
         this.subscription.unsubscribe();
@@ -165,16 +165,48 @@ export class AddProductPage implements OnInit, OnDestroy {
 
 
   /**
-   * 点击供应商时，判断本地是否有供应商数据
+   * 点击现有供应商时，判断本地是否有供应商数据
    */
+  async onClickSupplier() {
+    const actionSheet = await this.actionSheetController.create({
+      header: '选择您的操作',
+      buttons: [
+        {
+          text: '现有供货商',
+          role: 'destructive',
+          handler: async () => {
+            console.log('调用模态框');
+            const {data} = await this.presentModal();
+            if (data) {
+              this.product.supplierName = data.name;
+              this.product.supplierPhone = data.phone;
+            }
+          }
+        }, {
+          text: '新增供货商',
+          handler: () => {
+            this.presentAlertPrompt();
+            console.log('New Supplier');
+          }
+        }, {
+          text: '取消',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
 
   async onSupplier() {
     const supply = await (await this.productService.getSuppliers()).result;
     if (supply.length <= 0){
       this.presentAlertPrompt();
     } else {
-      // 调用模态框
-        // console.log('调用模态框');
+        // 调用模态框
+        console.log('调用模态框');
         const {data} = await this.presentModal();
         if (data) {
           this.product.supplierName = data.name;

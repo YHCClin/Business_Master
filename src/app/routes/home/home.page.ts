@@ -58,7 +58,7 @@ public items: Array<{title: string, icon: string, url: string}> = [
   {
     title: '商品管理',
     icon: 'apps-outline',
-    url: ''
+    url: '/product/product-list'
   },
   {
     title: '会员管理',
