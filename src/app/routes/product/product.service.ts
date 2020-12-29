@@ -68,20 +68,13 @@ export class ProductService {
       // 实际开发中应抛出异常类对象
       throw new Error('每页显示的记录数应大于零');
     }
-    const products = this.localStorageService.get('products', []);
-    const res = [];
-    for (const p of products) {
-      if (res.length >= size){
-        break;
-      } else {
-        res.push(p);
-      }
-    }
+    let products = this.localStorageService.get('products', []);
+    products = products.slice((index - 1) * size, index * size);
     // 其他代码省略
-    return new AjaxResult(true, res);
+    return new AjaxResult(true, products);
   }
 
-  async getListByCategoryId(index: number, size: 10, categoryId: number): Promise<AjaxResult> {
+  async getListByCategoryId(index: number, size: number, categoryId: number): Promise<AjaxResult> {
     const products = this.localStorageService.get('products', []);
     // tslint:disable-next-line:prefer-const
     let result = [];
@@ -96,12 +89,12 @@ export class ProductService {
       }
       const total = result.length;
       console.log('找到：' + total);
-      // result = result.slice((index - 1) * size, index * size);
+      result = result.slice((index - 1) * size, index * size);
       return new AjaxResult(true, result);
     }
   }
 
-  async getListByCondition(index: number, size: 10, input: any): Promise<AjaxResult> {
+  async getListByCondition(index: number, size: number, input: any): Promise<AjaxResult> {
     const productlist = this.localStorageService.get('products', []);
     let tmp = [];
     for (const p of productlist) {

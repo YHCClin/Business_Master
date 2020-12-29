@@ -53,12 +53,12 @@ export class ProductListPage implements OnInit {
     try {
       let ajaxResult: AjaxResult;
       if (this.flag) {
-        ajaxResult = await this.productService.getListByCategoryId(this.currentIndex, 10, this.categoryId);
+        ajaxResult = await this.productService.getListByCategoryId(this.currentIndex, 7, this.categoryId);
       } else {
-        ajaxResult = await this.productService.getList(this.currentIndex, 10);
+        ajaxResult = await this.productService.getList(this.currentIndex, 7);
       }
       console.log('有商品: ' + ajaxResult.result.length);
-      this.total = Number(ajaxResult.result.length);
+      this.total = (await this.productService.totalNumberOfGoods()).result;
       this.products = ajaxResult.result;
       for (const item of ajaxResult.result) {
         this.price += item.price * item.inventory;
@@ -75,7 +75,7 @@ export class ProductListPage implements OnInit {
   async ionViewDidEnter() {
     console.log('刷新了');
     // this.categoryId = -1;
-    this.currentIndex = 0;
+    this.currentIndex = 1;
     this.productService.totalNumberOfGoods().then((data) => {
       this.total = data.result;
     });
@@ -83,11 +83,12 @@ export class ProductListPage implements OnInit {
     this.price = 0;
     let ajaxResult: AjaxResult;
     if (this.flag){
-      ajaxResult = await this.productService.getListByCategoryId(this.currentIndex, 10, this.categoryId);
+      ajaxResult = await this.productService.getListByCategoryId(this.currentIndex, 7, this.categoryId);
     } else {
-      ajaxResult = await this.productService.getList(this.currentIndex, 10);
+      ajaxResult = await this.productService.getList(this.currentIndex, 7);
     }
     this.products = ajaxResult.result;
+    console.log(this.products.length);
     for (const product of this.products) {
       this.inventory += product.inventory;
       this.price += product.purchasePrice * product.inventory;
@@ -102,9 +103,9 @@ export class ProductListPage implements OnInit {
       this.price = 0;
       let ajaxResult: AjaxResult;
       if (this.flag){
-        ajaxResult = await this.productService.getListByCategoryId(this.currentIndex, 10, this.categoryId);
+        ajaxResult = await this.productService.getListByCategoryId(this.currentIndex, 7, this.categoryId);
       } else {
-        ajaxResult = await this.productService.getList(this.currentIndex, 10);
+        ajaxResult = await this.productService.getList(this.currentIndex, 7);
       }
 
       this.products = ajaxResult.result;
@@ -116,19 +117,20 @@ export class ProductListPage implements OnInit {
       console.log('出现错误, 刷新失败');
       console.log(error);
     }
-    refresh.complete();
+    event.target.complete();
   }
 
   async onInfinite(event) {
     const infiniteScroll = event.target;
-    this.currentIndex++;
+    this.currentIndex++; // 滑动加载下一页
     let ajaxResult: AjaxResult;
     if (this.flag){
-      ajaxResult = await this.productService.getListByCategoryId(this.currentIndex, 10, this.categoryId);
+      ajaxResult = await this.productService.getListByCategoryId(this.currentIndex, 7, this.categoryId);
     } else {
-      ajaxResult = await this.productService.getList(this.currentIndex, 10);
+      ajaxResult = await this.productService.getList(this.currentIndex, 7);
+      console.log('加载下一页');
     }
-    if (this.total - (this.currentIndex - 1) * 10) {
+    if (this.total - (this.currentIndex - 1) * 7 <= 0) {
       const toast = await this.toastCtrl.create({
         message: '已是最后一页',
         duration: 3000
@@ -137,13 +139,13 @@ export class ProductListPage implements OnInit {
     } else {
       this.inventory = 0;
       this.price = 0;
-      this.products = ajaxResult.result;
+      this.products = this.products.concat(ajaxResult.result);
       for (const product of this.products) {
         this.inventory += product.inventory;
-        this.price += product.purchasePrice;
+        this.price += product.purchasePrice * product.inventory;
       }
     }
-    infiniteScroll.complete();
+    event.target.complete();
   }
 
   async onInput(event) {
@@ -158,7 +160,7 @@ export class ProductListPage implements OnInit {
         this.inventory = 0;
         this.price = 0;
         let ajaxResult: AjaxResult;
-        ajaxResult = await this.productService.getListByCondition(this.currentIndex, 10, condition);
+        ajaxResult = await this.productService.getListByCondition(this.currentIndex, 7, condition);
         this.products = ajaxResult.result;
         for (const product of this.products) {
           this.inventory += product.inventory;
