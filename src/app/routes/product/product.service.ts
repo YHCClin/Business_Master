@@ -118,4 +118,43 @@ export class ProductService {
     }
     return false;
   }
+
+  async getProductByBarcode(barcode: string): Promise<AjaxResult>{
+    const products = this.localStorageService.get('products', []);
+    if (products.length !== 0){
+      for (const p of products){
+        if (p.barcode === barcode){
+          return new AjaxResult(true, p);
+        }
+      }
+    } else {
+      return new AjaxResult(false, null);
+    }
+  }
+  async deleteProductByBarcode(barcode: string): Promise<AjaxResult> {
+    const products = await this.localStorageService.get('products', []);
+    if (products.length !== 0){
+      for (let i = 0; i < products.length; i++){
+        if (products[i].barcode === barcode){
+          products.splice(i, 1);
+          break;
+        }
+      }
+      this.localStorageService.set('products', products);
+      return new AjaxResult(true, null);
+    } else {
+      return new AjaxResult(false, null);
+    }
+  }
+
+  async modifyProduct(product: Product): Promise<AjaxResult> {
+    const barcode = product.barcode;
+    const res = (await this.deleteProductByBarcode(barcode)).success;
+    if (res === true){
+      this.insert(product);
+      return new AjaxResult(true, null);
+    } else {
+      return new AjaxResult(false, null);
+    }
+  }
 }

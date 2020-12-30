@@ -70,7 +70,7 @@
         </ion-button>
       </ion-buttons>
     </ion-item>
-    <ion-item *ngFor="let p of products" detail [routerLink]="['/productDetails', p.barcode]">
+    <ion-item *ngFor="let p of products" detail routerLink="/product/product-detail" [queryParams] = "{barcode: p.barcode}">
       <ion-col size="2" *ngIf="p.images.length == 0">
         <img src="assets\images\c_goodspicture.png">
       </ion-col>
@@ -95,7 +95,7 @@
     </ion-item>
   </ion-grid>
 
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="onInfinite($event)">
+  <ion-infinite-scroll threshold="200px" (ionInfinite)="onInfinite($event)">
     <ion-infinite-scroll-content
             loadingSpinner="bubbles"
             loadingText="加载更多商品数据...">

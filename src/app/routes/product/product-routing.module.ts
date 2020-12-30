@@ -35,6 +35,22 @@ const routes: Routes = [
   {
     path: 'product-list',
     loadChildren: () => import('./product-list/product-list.module').then( m => m.ProductListPageModule)
+  },
+  {
+    path: 'product-detail',
+    loadChildren: () => import('./product-detail/product-detail.module').then( m => m.ProductDetailPageModule)
+  },
+  {
+    path: 'popover',
+    loadChildren: () => import('./popover/popover.module').then( m => m.PopoverPageModule)
+  },
+  {
+    path: 'modify-inventory',
+    loadChildren: () => import('./modify-inventory/modify-inventory.module').then( m => m.ModifyInventoryPageModule)
+  },
+  {
+    path: 'log',
+    loadChildren: () => import('./log/log.module').then( m => m.LogPageModule)
   }
 ];
 

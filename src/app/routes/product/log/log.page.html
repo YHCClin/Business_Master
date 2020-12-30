@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <ion-back-button text="返回" slot="start"></ion-back-button>
+      <ion-title slot="end">出/入库记录</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form>
+    <ion-list *ngIf="log.length !== 0">
+      <ion-item *ngFor="let lg of log">
+        {{lg}}
+      </ion-item>
+    </ion-list>
+    <ion-note *ngIf="log.length == 0">暂无记录</ion-note>
+  </form>
+</ion-content>
