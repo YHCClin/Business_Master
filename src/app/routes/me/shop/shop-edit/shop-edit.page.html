@@ -7,14 +7,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <form>
     <ion-list style="width:95%;margin:auto;">
       <ion-item>
         <ion-input name="{{property}}" type="text" [(ngModel)]="value" required placeholder="{{title}}"></ion-input>
       </ion-item>
     </ion-list>
-    <div padding-horizontal align="center">
+    <div align="center">
       <ion-button expand="block" color="primary" (click)="onSave()">保存</ion-button>
     </div>
   </form>

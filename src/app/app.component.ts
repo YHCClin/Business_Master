@@ -32,7 +32,8 @@ export class AppComponent {
       { title: '反馈建议', url: 'tabs/home', icon: 'mail' },
       { title: '帮助中心', url: 'tabs/home', icon: 'help-circle' }
     ];
-    this.statusBar.overlaysWebView(true);
+    // 沉浸式状态栏
+    // this.statusBar.overlaysWebView(true);
     this.ionViewDidLeave();
   }
   public uid = '';
@@ -42,6 +43,7 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString('#f8f8f8'); // 浅色背景
       this.splashScreen.hide();
       const user = this.localStorageService.get('user', null);
       if ( user != null) {

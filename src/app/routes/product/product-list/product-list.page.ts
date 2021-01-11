@@ -152,7 +152,7 @@ export class ProductListPage implements OnInit {
     this.currentIndex = 1;
     const condition = event.target.value;
     try {
-      if (condition == '') {
+      if (condition === '') {
         this.ionViewDidEnter();
     } else {
         this.categoryId = -1;
